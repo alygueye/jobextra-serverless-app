@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2015 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
  * with the License. A copy of the License is located at
@@ -10,20 +10,17 @@
  * OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package com.andado.jobextra.model;
+package com.andado.jobextra.exception;
 
-public class Error {
-    private String message;
-
-    public Error(String errorMessage) {
-        message = errorMessage;
+/**
+ * This exception should bot be exposed to Lambda or the client application. It's used internally to identify a DAO issue
+ */
+public class DAOException extends Exception {
+    public DAOException(String s, Exception e) {
+        super(s, e);
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public DAOException(String s) {
+        super(s);
     }
 }

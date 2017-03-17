@@ -10,12 +10,12 @@
  * OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package com.amazonaws.serverless.sample.spring;
+package com.andado.jobextra;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("com.amazonaws.serverless.sample.spring")
+@ComponentScan("com.andado.jobextra")
 public class PetStoreSpringAppConfig {
 }
