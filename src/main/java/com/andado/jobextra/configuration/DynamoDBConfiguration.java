@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2015 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
  * with the License. A copy of the License is located at
@@ -10,20 +10,16 @@
  * OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package com.andado.jobextra.model;
+package com.andado.jobextra.configuration;
 
-public class Error {
-    private String message;
+/**
+ * Configuration parameters for the DynamoDB DAO objects
+ */
+public class DynamoDBConfiguration {
+    // TODO: Specify the name of the Users table in DynamoDB
+    public static final String USERS_TABLE_NAME = "users";
+    // TODO: Specify the name of the Pet table in DynamoDB
+    public static final String PET_TABLE_NAME = "pets";
 
-    public Error(String errorMessage) {
-        message = errorMessage;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    public static final int SCAN_LIMIT = 50;
 }
