@@ -5,7 +5,9 @@ var defaults = {
   AWS_REGION: 'us-east-1',
   ENVIRONMENT_STAGE: 'development',
   PROJECT_PREFIX: 'spacefinder-api-',
-  PACKAGE_VERSION: '1.0.0'
+  PACKAGE_VERSION: '1.0.0',
+  MAVEN_PROJECT_VERSION: '1.0-SNAPSHOT',
+  MAVEN_ARTIFACT_NAME: 'jobextra-serverless-app'
 };
 
 function getVar(name) {
@@ -21,7 +23,9 @@ var config = {
   AWS_REGION: getVar('AWS_REGION'),
   ENVIRONMENT_STAGE: getVar('ENVIRONMENT_STAGE'),
   PROJECT_PREFIX: getVar('PROJECT_PREFIX'),
-  PACKAGE_VERSION: getVar('PACKAGE_VERSION')
+  PACKAGE_VERSION: getVar('PACKAGE_VERSION'),
+  JAR_NAME: getVar('MAVEN_ARTIFACT_NAME'),
+  JAR_VERSION: getVar('MAVEN_PROJECT_VERSION')
 };
 
 // For local development, define these properties before requiring the SDK since it will provide the right credentials
@@ -42,9 +46,16 @@ config.getResourcePrefix = () => {
 config.getLambdaZipName = () => {
   return 'lambda-' + config.PACKAGE_VERSION + '.zip';
 };
+config.getLambdaJavaJarName = () => {
+  return config.JAR_NAME +'-'+ config.JAR_VERSION + '.jar';
+};
 config.getLambdaZipPath = () => {
   var path = require('path');
   return path.join(__dirname, 'dist', 'lambda-' + config.PACKAGE_VERSION + '.zip');
+};
+config.getLambdaJavaJarPath = () => {
+    var path = require('path');
+    return path.join(__dirname, '..', 'target', config.JAR_NAME + '-' + config.JAR_VERSION + '.jar');
 };
 
 module.exports = config;

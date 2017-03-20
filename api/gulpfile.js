@@ -68,6 +68,7 @@ gulp.task('create_dynamodb_tables', function (done) {
     (new lambdaData.BookingsTable()).safeCreateTable(),
     (new lambdaData.ProfilesTable()).safeCreateTable(),
     (new lambdaData.ResourcesTable()).safeCreateTable(),
+    (new lambdaData.PetsTable()).safeCreateTable(),
   ];
   execPromise(Promise.all(promises), done);
 });
@@ -79,6 +80,7 @@ gulp.task('delete_dynamodb_tables', function (done) {
     (new lambdaData.BookingsTable()).deleteTable(),
     (new lambdaData.ProfilesTable()).deleteTable(),
     (new lambdaData.ResourcesTable()).deleteTable(),
+    (new lambdaData.PetsTable()).deleteTable(),
   ];
   execPromise(Promise.all(promises), done);
 });
@@ -91,6 +93,11 @@ gulp.task('create_lambda_zip', function (done) {
 gulp.task('upload_lambda_zip', function (done) {
   logger.info('Uploading Lambda zip archive to S3...');
   execPromise(util.s3.uploadLambdaZipToS3(), done);
+});
+
+gulp.task('upload_lambda_jar', function (done) {
+    logger.info('Uploading Lambda jar archive to S3...');
+    execPromise(util.s3.uploadLambdaJarToS3(), done);
 });
 
 gulp.task('create_lambda_functions', function (done) {
@@ -165,7 +172,7 @@ gulp.task('delete_cloudwatch_logs', function (done) {
 
 gulp.task('deploy_api', gulp.series('import_api', 'sleep', 'create_api_stage'));
 
-gulp.task('deploy_lambda', gulp.series('create_lambda_zip', 'upload_lambda_zip', 'create_lambda_functions', 'create_custom_authorizer'));
+gulp.task('deploy_lambda', gulp.series('create_lambda_zip', 'upload_lambda_zip','upload_lambda_jar', 'create_lambda_functions', 'create_custom_authorizer'));
 
 gulp.task('generate_sdk', gulp.series('export_api', 'create_sdk', 'delete_export_api'));
 

@@ -185,6 +185,7 @@ class LocationsTable extends Table {
   }
 }
 
+
 class ResourcesTable extends Table {
   constructor() {
     super({
@@ -407,9 +408,44 @@ class ProfilesTable extends Table {
   }
 }
 
+class PetsTable extends Table {
+  constructor() {
+    super({
+            // Parametrization supported for the name so it can be user configured.
+            TableName: config.getName('pets'),
+            KeySchema: [{ AttributeName: 'petId', KeyType: 'HASH' }],
+            AttributeDefinitions: [{ AttributeName: 'petId', AttributeType: 'S' }],
+            ProvisionedThroughput: {
+              ReadCapacityUnits: 1,
+              WriteCapacityUnits: 1
+            }
+          },
+          // These are custom options that the Table class understands
+          {
+            // Which parameters are auto-generated with uuid.v1() which is time dependant.
+            uuid: ['petId'],
+            // Whether to add timestamps to the entries.
+            timestamps: true,
+          });
+  }
+
+  delete(petId) {
+    return super.delete({petId: petId});
+  }
+
+  get(petId) {
+    return super.get({petId: petId});
+  }
+
+  update(petId) {
+    return super.put({petId: petId});
+  }
+}
+
 module.exports = {
   LocationsTable,
   ResourcesTable,
   BookingsTable,
-  ProfilesTable
+  ProfilesTable,
+  PetsTable
 };
