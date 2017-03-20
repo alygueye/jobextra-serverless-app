@@ -18,6 +18,18 @@ function uploadLambdaZipToS3() {
   });
 }
 
+function uploadLambdaJarToS3() {
+    return cf.getStackOutputs().then((cfOutputs) => {
+        return {
+            Bucket: cfOutputs.LambdaBucket,
+            Key: config.getLambdaJavaJarName(),
+            Body: fs.createReadStream(config.getLambdaJavaJarPath())
+        };
+    }).then((params) => {
+        return putS3Object(params);
+    });
+}
+
 function putS3Object(params) {
   return new Promise((resolve, reject) => {
     var s3obj = new AWS.S3({params: params});
@@ -101,5 +113,6 @@ function deleteObjects(bucketName, objectKeys) {
 
 module.exports = {
   uploadLambdaZipToS3,
+  uploadLambdaJarToS3,
   emptyBucket
 };
