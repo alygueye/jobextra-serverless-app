@@ -9,6 +9,7 @@ var path = require('path');
 var fs = require('fs');
 var assert = require('assert');
 
+
 function createFunction(operationId, description) {
     return cf.getStackOutputs().then((cfOutputs) => {
       assert(cfOutputs.LambdaExecutionRoleArn, 'Missing LambdaExecutionRoleArn');
@@ -25,6 +26,12 @@ function createFunction(operationId, description) {
         Timeout: 10
       };
     }).then(createFunctionImpl);
+}
+
+function createFunctionV2(operationId) {
+  return cf.getStackOutputs().then((cfOutputs) => {
+    return config.getFunctionsConfigParams(cfOutputs)[operationId.replace('-', '')];
+  }).then(createFunctionImpl);
 }
 
 function createFunctionImpl(params) {
@@ -136,6 +143,25 @@ function createFunctionsFromSwagger() {
   });
 }
 
+function createFunctionsFromSwaggerV2() {
+  var api = yaml.safeLoad(fs.readFileSync(path.join(__dirname, '..', 'swagger', 'SpacefinderAPI.yml')).toString());
+  var promises = [];
+  for (let path in api.paths) {
+    for (let method in api.paths[path]) {
+      let definition = api.paths[path][method];
+      let operationId = definition.operationId;
+      promises.push(createFunctionV2(operationId));
+    }
+  }
+  return Promise.all(promises).then((result) => {
+    var permPromises = [];
+    result.forEach(result => {
+      permPromises.push(addPermission(result));
+    });
+    return Promise.all(permPromises);
+  });
+}
+
 function createCustomAuthorizerFunction() {
   return new Promise((resolve, reject) => {
     createFunction('authorizer-Custom','Custom authorizer function for API Gateway to grant admin-only permissions').then((data) => {
@@ -228,6 +254,7 @@ function deleteFunctions() {
 
 module.exports = {
   createFunctionsFromSwagger,
+  createFunctionsFromSwaggerV2,
   createCustomAuthorizerFunction,
   deleteFunctions
 };

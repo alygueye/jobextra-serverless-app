@@ -6,6 +6,9 @@ var AWS = config.AWS;
 var fs = require('fs');
 var cf = rfr('/util/cloudFormation');
 
+//set large  timeout for uploading bigfile
+AWS.config.httpOptions.timeout=1800000;
+
 function uploadLambdaZipToS3() {
   return cf.getStackOutputs().then((cfOutputs) => {
     return {

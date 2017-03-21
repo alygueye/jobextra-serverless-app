@@ -102,7 +102,7 @@ gulp.task('upload_lambda_jar', function (done) {
 
 gulp.task('create_lambda_functions', function (done) {
   logger.info('Creating Lambda functions from Swagger API definition...');
-  execPromise(util.lambda.createFunctionsFromSwagger(), done);
+  execPromise(util.lambda.createFunctionsFromSwaggerV2(), done);
 });
 
 gulp.task('create_custom_authorizer', function (done) {
