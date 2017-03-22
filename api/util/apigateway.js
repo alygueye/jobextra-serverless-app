@@ -27,10 +27,15 @@ function process(definition, path, method, accountId, region) {
 
 function processPath(definition) {
   let methods = `'${Object.keys(definition).join(',').toUpperCase()}'`;
+  let key='get';
+  if(methods.toLowerCase()==="'x-amazon-apigateway-any-method'"){
+    methods="'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'";
+    key=Object.keys(definition);
+  }
   definition.options = {
     consumes: ['application/json'],
     produces: ['application/json'],
-    parameters: definition.get.parameters,
+    parameters: definition[key].parameters,
     responses: {
       200: {
         description: '200 response',

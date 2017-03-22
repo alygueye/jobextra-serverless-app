@@ -152,7 +152,7 @@ class GlobalExceptionHandler {
    * on affiche le message de debuggage au rôles techniques.
    */
   private String getDebugMessage(Throwable throwable) {
-    if (!Boolean.valueOf(env.getProperty("eticket.api.debugmessage.enable", "false"))) {
+    if (!Boolean.valueOf(env.getProperty("api.debugmessage.enable", "false"))) {
       return null;
     }
     final StringWriter stackStrace = new StringWriter();

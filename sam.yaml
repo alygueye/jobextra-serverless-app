@@ -1,15 +1,37 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Example Pet Store API written with spring with the aws-serverless-java-container library
+
+Parameters:
+  PetReadCapacity:
+    Type: Number
+    Description: Read capacity for the DynamoDB pet table.
+    Default: 1
+    MinValue: 1
+  PetWriteCapacity:
+    Type: Number
+    Description: Write capacity for the DynamoDB pet table.
+    Default: 1
+    MinValue: 1
+  PetTableName:
+    Type: String
+    Description: Pet table name.
+    Default: pets
+
 Resources:
   PetStoreFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: com.amazonaws.serverless.sample.spring.LambdaPetsHandler::handleRequest
+      Handler: com.andado.jobextra.function.LambdaPetsHandler::handleRequest
       Runtime: java8
-      CodeUri: target/serverless-spring-example-1.0-SNAPSHOT.jar
+      CodeUri: s3://my-lambda-package/jobextra-serverless-app-1.0-SNAPSHOT.jar
       MemorySize: 512
-      Policies: AWSLambdaBasicExecutionRole
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AmazonS3FullAccess
+      Environment:
+        Variables:
+          PET_TABLE_NAME: !Ref PetsTable
       Timeout: 20
       Events:
         GetResource:
@@ -17,6 +39,20 @@ Resources:
           Properties:
             Path: /{proxy+}
             Method: any
+  PetsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: petId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: petId
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: !Ref PetReadCapacity
+        WriteCapacityUnits: !Ref PetWriteCapacity
+      TableName: !Ref PetTableName
+
 
 Outputs:
   SpringPetStoreApi:

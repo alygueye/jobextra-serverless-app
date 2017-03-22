@@ -30,6 +30,7 @@ import javax.validation.Validator;
 
 @RestController
 //@EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
+@RequestMapping(value = "/api/jobextra", produces = {"application/json; charset=UTF-8"})
 @EnableWebMvc
 public class PetsController extends BaseController {
 

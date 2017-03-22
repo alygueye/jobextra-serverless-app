@@ -18,6 +18,20 @@ consumes:
 produces:
   - application/json
 paths:
+  /api/jobextra/{proxy+}:
+    x-amazon-apigateway-any-method:
+      description: Pets Controller
+      # used as key to get lambda function in config.js
+      operationId: pets-Controller
+      produces:
+      - application/json
+      parameters:
+      - name: proxy
+        in: path
+        required: true
+        type: string
+      responses: {}
+
   /locations:
     get:
       description: Returns List of 'Locations'
