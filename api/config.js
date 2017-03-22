@@ -3,9 +3,9 @@ var assert = require('assert');
 
 var defaults = {
   AWS_PROFILE: 'default',
-  AWS_REGION: 'eu-west-1',
-  ENVIRONMENT_STAGE: 'development',
-  PROJECT_PREFIX: 'spacefinder-api-',
+  AWS_REGION: 'us-east-1',
+  ENVIRONMENT_STAGE: 'prod',
+  PROJECT_PREFIX: 'jobextra-api-',
   PACKAGE_VERSION: '1.0.0',
   MAVEN_PROJECT_VERSION: '1.0-SNAPSHOT',
   MAVEN_ARTIFACT_NAME: 'jobextra-serverless-app'
@@ -62,6 +62,25 @@ config.getLambdaJavaJarPath = () => {
 config.getFunctionsConfigParams = (cfOutputs) => {
   assert(cfOutputs.LambdaExecutionRoleArn, 'Missing LambdaExecutionRoleArn');
   return {
+    petsController: {
+      Code: {
+        S3Bucket: cfOutputs.LambdaBucket,
+        S3Key: config.getLambdaJavaJarName(),
+      },
+      Description: 'Pets Controller',
+      FunctionName: config.getName('pets-Controller'),
+      Handler: 'com.andado.jobextra.function.LambdaPetsHandler::handleRequest',
+      Role: cfOutputs.LambdaExecutionRoleArn,
+      Runtime: 'java8',
+      MemorySize: 512,
+      Timeout: 20
+      /*Environment: {
+        Variables: {
+          someKey: config.ENVIRONMENT_STAGE,
+
+        }
+      }*/
+    },
     locationsList: {
       Code: {
         S3Bucket: cfOutputs.LambdaBucket,
