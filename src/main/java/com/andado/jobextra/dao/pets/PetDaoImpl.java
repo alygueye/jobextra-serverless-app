@@ -4,13 +4,11 @@ package com.andado.jobextra.dao.pets;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.andado.jobextra.configuration.DynamoDBConfiguration;
-import com.andado.jobextra.controller.pets.PetsController;
 import com.andado.jobextra.exception.DAOException;
 import com.andado.jobextra.model.pets.Pet;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

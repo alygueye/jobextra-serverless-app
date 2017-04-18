@@ -74,7 +74,7 @@
         <rest.response.showdebugmessage>false</rest.response.showdebugmessage>
         <hibernate.hbm2ddl.auto>validate</hibernate.hbm2ddl.auto>
         <hibernate.show_sql>false</hibernate.show_sql>
-        <env>prod</env>
+        <env>dev</env>
         <dynamodb-local.port></dynamodb-local.port>
         <dynamodb-local.endpoint></dynamodb-local.endpoint>
       </properties>
@@ -215,6 +215,13 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>21.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.12</version>
+      <scope>provided</scope>
     </dependency>
 
 

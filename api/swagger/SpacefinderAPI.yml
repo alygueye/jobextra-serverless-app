@@ -18,7 +18,7 @@ consumes:
 produces:
   - application/json
 paths:
-  /api/jobextra/{proxy+}:
+  /api/poc/{proxy+}:
     x-amazon-apigateway-any-method:
       description: Pets Controller
       # used as key to get lambda function in config.js
@@ -31,6 +31,38 @@ paths:
         required: true
         type: string
       responses: {}
+
+  /api/jobs/users/{proxy+}:
+      x-amazon-apigateway-any-method:
+        description: Jobs Controller
+        # used as key to get lambda function in config.js
+        operationId: jobs-Controller
+        produces:
+        - application/json
+        parameters:
+        - name: proxy
+          in: path
+          required: true
+          type: string
+        responses: {}
+        security:
+        - sigv4: []
+
+  /api/jobs/list/{proxy+}:
+      x-amazon-apigateway-any-method:
+        description: Jobs Controller
+        # used as key to get lambda function in config.js
+        operationId: jobs-Controller
+        produces:
+        - application/json
+        parameters:
+        - name: proxy
+          in: path
+          required: true
+          type: string
+        responses: {}
+        security:
+        - spacefinder-userPool-authorizer: []
 
   /locations:
     get:

@@ -4,7 +4,7 @@ var assert = require('assert');
 var defaults = {
   AWS_PROFILE: 'default',
   AWS_REGION: 'us-east-1',
-  ENVIRONMENT_STAGE: 'prod',
+  ENVIRONMENT_STAGE: 'dev',
   PROJECT_PREFIX: 'jobextra-api-',
   PACKAGE_VERSION: '1.0.0',
   MAVEN_PROJECT_VERSION: '1.0-SNAPSHOT',
@@ -80,6 +80,25 @@ config.getFunctionsConfigParams = (cfOutputs) => {
 
         }
       }*/
+    },
+    jobsController: {
+      Code: {
+        S3Bucket: cfOutputs.LambdaBucket,
+        S3Key: config.getLambdaJavaJarName(),
+      },
+      Description: 'Jobs Controller',
+      FunctionName: config.getName('jobs-Controller'),
+      Handler: 'com.andado.jobextra.function.LambdaJobHandler::handleRequest',
+      Role: cfOutputs.LambdaExecutionRoleArn,
+      Runtime: 'java8',
+      MemorySize: 512,
+      Timeout: 20
+      /*Environment: {
+       Variables: {
+       someKey: config.ENVIRONMENT_STAGE,
+
+       }
+       }*/
     },
     locationsList: {
       Code: {
