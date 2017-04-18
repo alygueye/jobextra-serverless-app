@@ -4,11 +4,10 @@ import com.amazonaws.serverless.proxy.internal.model.AwsProxyRequest;
 import com.amazonaws.serverless.proxy.internal.model.AwsProxyResponse;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.andado.jobextra.LocalDynamoDBCreationRule;
-import com.andado.jobextra.dao.pets.PetDaoImpl;
 import com.andado.jobextra.function.LambdaPetsHandler;
 import com.andado.jobextra.function.TestBase;
 import com.andado.jobextra.model.pets.Pet;
-import com.andado.jobextra.pojo.ListPetsResponse;
+import com.andado.jobextra.pojo.ListResponse;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -19,7 +18,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.
@@ -63,7 +61,7 @@ public class LambdaPetsHandlerTest extends TestBase {
       LOGGER.info(output.getBody().toString());
     }
 
-    ListPetsResponse result=getGson().fromJson(output.getBody(),ListPetsResponse.class);
+    ListResponse result=getGson().fromJson(output.getBody(),ListResponse.class);
     Assert.assertEquals(result.getCount(),0);
 
   }

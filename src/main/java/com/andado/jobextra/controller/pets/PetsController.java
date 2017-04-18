@@ -11,7 +11,7 @@ import com.andado.jobextra.exception.DAOException;
 import com.andado.jobextra.exception.ExceptionMessages;
 import com.andado.jobextra.exception.InternalErrorException;
 import com.andado.jobextra.model.pets.Pet;
-import com.andado.jobextra.pojo.ListPetsResponse;
+import com.andado.jobextra.pojo.ListResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,15 +69,15 @@ public class PetsController extends BaseController {
   }
 
   @RequestMapping(path = "/pets", method = RequestMethod.GET)
-  public ListPetsResponse listPets(@RequestParam("limit") Optional<Integer> limit, AwsProxyHttpServletRequest request) throws Exception {
+  public ListResponse<Pet> listPets(@RequestParam("limit") Optional<Integer> limit, AwsProxyHttpServletRequest request) throws Exception {
     LOG.debug(logRequest(request));
 
     int pageLimit = limit.orElse(DynamoDBConfiguration.SCAN_LIMIT);
     List<Pet> pets = petDao.getPets(pageLimit);
-    ListPetsResponse output = new ListPetsResponse();
+    ListResponse<Pet> output = new ListResponse<>();
     output.setCount(pets.size());
     output.setPageLimit(pageLimit);
-    output.setPets(pets);
+    output.setResult(pets);
     return output;
   }
 

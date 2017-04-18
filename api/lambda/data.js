@@ -408,6 +408,43 @@ class ProfilesTable extends Table {
   }
 }
 
+class JobOfferTable extends Table {
+  constructor() {
+    super({
+
+            TableName: config.getName('joboffer'),
+            KeySchema: [{ AttributeName: 'postedBy', KeyType: 'HASH' },{ AttributeName: 'creationDateTime', KeyType: 'RANGE' }],
+            AttributeDefinitions: [
+              { AttributeName: 'postedBy', AttributeType: 'S' },
+              { AttributeName: 'creationDateTime', AttributeType: 'N' }
+            ],
+            ProvisionedThroughput: {
+              ReadCapacityUnits: 1,
+              WriteCapacityUnits: 1
+            }
+          },
+          // These are custom options that the Table class understands
+          {
+            // Which parameters are auto-generated with uuid.v1() which is time dependant.
+            //uuid: ['petId'],
+            // Whether to add timestamps to the entries.
+            timestamps: true,
+          });
+  }
+
+  delete(petId) {
+    return super.delete({petId: petId});
+  }
+
+  get(petId) {
+    return super.get({petId: petId});
+  }
+
+  update(petId) {
+    return super.put({petId: petId});
+  }
+}
+
 class PetsTable extends Table {
   constructor() {
     super({
@@ -447,5 +484,6 @@ module.exports = {
   ResourcesTable,
   BookingsTable,
   ProfilesTable,
-  PetsTable
+  PetsTable,
+  JobOfferTable
 };

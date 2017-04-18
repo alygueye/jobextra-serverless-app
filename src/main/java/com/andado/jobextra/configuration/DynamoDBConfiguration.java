@@ -21,8 +21,11 @@ public class DynamoDBConfiguration {
   public static final String USERS_TABLE_NAME = "users";
   // TODO: Specify the name of the Pet table in DynamoDB
   public static final String PET_TABLE_NAME = "pets";
+  public static final String JOBOFFER_TABLE_NAME = "joboffer";
 
   public static final int SCAN_LIMIT = 50;
+
+  public static final long DEFAULT_NB_DAY = 30;
 
   @Value("${amazonDynamodbEndpoint}")
   private String amazonDynamoDBEndpoint;

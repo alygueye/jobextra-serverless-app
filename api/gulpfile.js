@@ -69,6 +69,7 @@ gulp.task('create_dynamodb_tables', function (done) {
     (new lambdaData.ProfilesTable()).safeCreateTable(),
     (new lambdaData.ResourcesTable()).safeCreateTable(),
     (new lambdaData.PetsTable()).safeCreateTable(),
+    (new lambdaData.JobOfferTable()).safeCreateTable(),
   ];
   execPromise(Promise.all(promises), done);
 });
@@ -81,6 +82,7 @@ gulp.task('delete_dynamodb_tables', function (done) {
     (new lambdaData.ProfilesTable()).deleteTable(),
     (new lambdaData.ResourcesTable()).deleteTable(),
     (new lambdaData.PetsTable()).deleteTable(),
+    (new lambdaData.JobOfferTable()).deleteTable(),
   ];
   execPromise(Promise.all(promises), done);
 });
